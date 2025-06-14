@@ -21,9 +21,10 @@
 
 <div align="center">
 
-![Chandre GPT Demo](https://via.placeholder.com/800x400/10b981/ffffff?text=🌟+Chandre+The+GPT+Demo+Screenshot)
 
-*Replace this placeholder with actual screenshots of your app*
+<img width="1409" alt="image" src="https://github.com/user-attachments/assets/b61ac52d-6647-4d4a-a59f-28a584e71f22" />
+
+Clean and sleek design
 
 </div>
 
@@ -144,43 +145,16 @@ streamlit run app.py
 
 <div align="center">
 
-### 💬 Text Chat
-<img src="https://img.shields.io/badge/Feature-Text_Chat-blue?style=for-the-badge&logo=chat&logoColor=white"/>
-
-![Text Chat Demo](https://via.placeholder.com/400x250/10b981/ffffff?text=💬+Text+Chat+Interface)
-
-- Type messages in the input box
-- Get intelligent AI responses
-- Context is maintained throughout conversation
-
+<img width="336" alt="image" src="https://github.com/user-attachments/assets/f9b3be4d-e08a-46f9-bb06-f686d4db3d5f" />
+### 🎨 Text Generation
 </div>
+
 
 <div align="center">
 
 ### 🎙️ Voice Interaction
-<img src="https://img.shields.io/badge/Feature-Voice_Chat-orange?style=for-the-badge&logo=microphone&logoColor=white"/>
-
-![Voice Chat Demo](https://via.placeholder.com/400x250/f59e0b/ffffff?text=🎙️+Voice+Interface)
-
-- Click 🎙️ to start recording
-- Speak clearly and naturally
-- Get automatic voice responses
-
-</div>
-
-<div align="center">
 
 ### 🎨 Image Generation
-<img src="https://img.shields.io/badge/Feature-Image_Generation-purple?style=for-the-badge&logo=image&logoColor=white"/>
-
-![Image Generation Demo](https://via.placeholder.com/400x250/8b5cf6/ffffff?text=🎨+Image+Generation)
-
-**Trigger Words**: `draw`, `generate image`, `create picture`, `show me`
-
-**Example Prompts**:
-- *"Draw a futuristic cityscape"*
-- *"Generate image of a sunset over mountains"*
-- *"Create a picture of a cute robot"*
 
 </div>
 
@@ -399,7 +373,7 @@ requests                   # API calls
 
 *Be the first to contribute and see your name here!*
 
-<img src="https://contrib.rocks/image?repo=yourusername/chandre-the-gpt" alt="Contributors"/>
+<img src="https://contrib.rocks/image?repo=AdarshXNepal/chandre-the-gpt" alt="Contributors"/>
 
 </div>
 
