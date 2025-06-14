@@ -8,7 +8,7 @@ langchain
 langchain-google-genai
 
 # Audio Processing
-speech-recognition
+SpeechRecognition
 gtts
 pydub
 
