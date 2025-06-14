@@ -1,34 +1,30 @@
-# Core Framework
+# Core Streamlit
 streamlit
 streamlit-mic-recorder
 
-# Google AI & LangChain
+# AI/ML
 google-generativeai
 langchain
 langchain-google-genai
 
-# Audio Processing
+# Audio processing (cloud-compatible alternatives)
 SpeechRecognition
 gtts
 pydub
+soundfile
+# Use librosa-lite or specific audio processing libraries that support Python 3.13
+# Alternative: essentia-tensorflow for audio analysis
 
-# Image Processing
+# Image processing
 Pillow
 
-# HTTP Requests
+# Utilities
 requests
-
-# Additional Dependencies (often required by above packages)
-pyaudio
 numpy
 matplotlib
 scipy
 
-# Optional: For better audio quality and format support
-librosa
-soundfile
-
-# Development and Testing (optional)
+# Development
 pytest
 black
 flake8
