@@ -19,7 +19,7 @@ Pillow
 requests
 
 # Additional Dependencies (often required by above packages)
-pyaudio1
+pyaudio
 numpy
 matplotlib
 scipy
