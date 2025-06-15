@@ -399,15 +399,11 @@ with st.sidebar:
     st.session_state.tts_enabled = st.checkbox("Enable Text-to-Speech", value=st.session_state.tts_enabled)
     
     if st.button("🔇 Stop Speaking"):
-        stop_tts_js = """
+        st.components.v1.html("""
         <script>
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            console.log('TTS stopped by user');
-        }
+        parent.postMessage({type: 'stop_speaking'}, '*');
         </script>
-        """
-        st.components.v1.html(stop_tts_js, height=0, key=f"stop_tts_{len(st.session_state.messages)}")
+        """, height=0)
 
 # Header
 st.markdown('<h1 class="chat-title">🎓 Chandre The GPT</h1>', unsafe_allow_html=True)
@@ -548,23 +544,21 @@ col1, col2, col3 = st.columns([1, 1, 1])
 with col1:
     if st.button("🎙️ Start Recording", disabled=st.session_state.recording or st.session_state.processing):
         st.session_state.recording = True
-        start_recording_js = """
+        st.components.v1.html("""
         <script>
-        window.postMessage({type: 'start_recording'}, '*');
+        parent.postMessage({type: 'start_recording'}, '*');
         </script>
-        """
-        st.components.v1.html(start_recording_js, height=0, key=f"start_rec_{len(st.session_state.messages)}")
+        """, height=0)
         st.rerun()
 
 with col2:
     if st.button("⏹️ Stop Recording", disabled=not st.session_state.recording):
         st.session_state.recording = False
-        stop_recording_js = """
+        st.components.v1.html("""
         <script>
-        window.postMessage({type: 'stop_recording'}, '*');
+        parent.postMessage({type: 'stop_recording'}, '*');
         </script>
-        """
-        st.components.v1.html(stop_recording_js, height=0, key=f"stop_rec_{len(st.session_state.messages)}")
+        """, height=0)
         st.rerun()
 
 with col3:
@@ -602,162 +596,63 @@ if st.session_state.processing and st.session_state.messages:
                 text_to_speak = response["text"]
             
             if text_to_speak:
-                # Clean text for TTS (remove markdown and special characters)
-                clean_text = text_to_speak.replace('*', '').replace('_', '').replace('#', '').replace('`', '')
-                clean_text = ' '.join(clean_text.split())  # Remove extra whitespace
-                
-                tts_js = f"""
+                st.components.v1.html(f"""
                 <script>
-                function speakText() {{
-                    if ('speechSynthesis' in window) {{
-                        // Cancel any ongoing speech
-                        window.speechSynthesis.cancel();
-                        
-                        const text = {json.dumps(clean_text)};
-                        const utterance = new SpeechSynthesisUtterance(text);
-                        
-                        // Configure voice settings
-                        utterance.rate = 0.9;
-                        utterance.pitch = 1;
-                        utterance.volume = 0.8;
-                        
-                        // Try to get a good English voice
-                        const voices = window.speechSynthesis.getVoices();
-                        const englishVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            !voice.name.includes('Google') // Avoid potential issues
-                        ) || voices.find(voice => voice.lang.startsWith('en'));
-                        
-                        if (englishVoice) {{
-                            utterance.voice = englishVoice;
-                        }}
-                        
-                        utterance.onstart = function() {{
-                            console.log('TTS started');
-                        }};
-                        
-                        utterance.onend = function() {{
-                            console.log('TTS ended');
-                        }};
-                        
-                        utterance.onerror = function(event) {{
-                            console.error('TTS error:', event.error);
-                        }};
-                        
-                        // Small delay to ensure proper initialization
-                        setTimeout(() => {{
-                            window.speechSynthesis.speak(utterance);
-                        }}, 100);
-                    }} else {{
-                        console.error('Speech synthesis not supported');
-                    }}
-                }}
-
-                // Ensure voices are loaded before speaking
-                if ('speechSynthesis' in window) {{
-                    if (window.speechSynthesis.getVoices().length > 0) {{
-                        speakText();
-                    }} else {{
-                        window.speechSynthesis.onvoiceschanged = function() {{
-                            speakText();
-                            window.speechSynthesis.onvoiceschanged = null; // Remove listener
-                        }};
-                    }}
-                }}
+                parent.postMessage({{type: 'speak_text', text: {json.dumps(text_to_speak)}}}, '*');
                 </script>
-                """
-                st.components.v1.html(tts_js, height=0, key=f"tts_{len(st.session_state.messages)}")
+                """, height=0)
         
         st.rerun()
 
-# Voice input processing with session state
-voice_input_key = f"voice_input_{len(st.session_state.messages)}"
+# Handle voice input results via JavaScript messages
+voice_result_placeholder = st.empty()
 
-# JavaScript message handler for voice recognition
-voice_js = f"""
+# JavaScript message handler
+st.components.v1.html("""
 <script>
-let recognition;
-let isListening = false;
-
-// Initialize Speech Recognition
-if ('webkitSpeechRecognition' in window) {{
-    recognition = new webkitSpeechRecognition();
-}} else if ('SpeechRecognition' in window) {{
-    recognition = new SpeechRecognition();
-}}
-
-if (recognition) {{
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = 'en-US';
-    
-    recognition.onresult = function(event) {{
-        const transcript = event.results[0][0].transcript;
-        // Use Streamlit's component communication
-        window.parent.postMessage({{
-            type: 'streamlit_component_value',
-            key: '{voice_input_key}',
-            value: transcript
-        }}, '*');
-    }};
-    
-    recognition.onerror = function(event) {{
-        console.error('Speech recognition error:', event.error);
-        window.parent.postMessage({{
-            type: 'streamlit_component_value', 
-            key: '{voice_input_key}',
-            value: 'ERROR:' + event.error
-        }}, '*');
-    }};
-    
-    recognition.onend = function() {{
-        isListening = false;
-        window.parent.postMessage({{
-            type: 'streamlit_component_value',
-            key: '{voice_input_key}', 
-            value: 'RECORDING_ENDED'
-        }}, '*');
-    }};
-}}
-
-// Listen for commands from Streamlit
-window.addEventListener('message', function(event) {{
-    if (event.data.type === 'start_recording' && recognition && !isListening) {{
-        try {{
-            recognition.start();
-            isListening = true;
-        }} catch (error) {{
-            console.error('Failed to start recognition:', error);
-        }}
-    }} else if (event.data.type === 'stop_recording' && recognition && isListening) {{
-        recognition.stop();
-        isListening = false;
-    }}
-}});
+window.addEventListener('message', function(event) {
+    if (event.data.type === 'speech_result') {
+        // Send the transcript back to Streamlit
+        const transcript = event.data.transcript;
+        window.parent.postMessage({
+            type: 'streamlit_set_component_value',
+            value: transcript,
+            dataType: 'json'
+        }, '*');
+    } else if (event.data.type === 'speech_error') {
+        console.error('Speech recognition error:', event.data.error);
+        window.parent.postMessage({
+            type: 'streamlit_set_component_value',
+            value: 'ERROR:' + event.data.error,
+            dataType: 'json'
+        }, '*');
+    } else if (event.data.type === 'speech_end') {
+        window.parent.postMessage({
+            type: 'streamlit_set_component_value',
+            value: 'ENDED',
+            dataType: 'json'
+        }, '*');
+    }
+});
 </script>
-"""
-
-st.components.v1.html(voice_js, height=0, key=voice_input_key)
+""", height=0, key="voice_handler")
 
 # Check for voice input results
-voice_result = st.session_state.get(voice_input_key)
-if voice_result and voice_result.strip():
-    if voice_result.startswith("ERROR:"):
-        st.error(f"Voice recognition error: {voice_result[6:]}")
-        st.session_state.recording = False
-    elif voice_result == "RECORDING_ENDED":
+if st.session_state.get("voice_result") and st.session_state.voice_result.strip():
+    if st.session_state.voice_result.startswith("ERROR:"):
+        st.error(f"Voice recognition error: {st.session_state.voice_result[6:]}")
+    elif st.session_state.voice_result == "ENDED":
         st.session_state.recording = False
     else:
         # Process voice input
-        if not st.session_state.processing and voice_result not in ["ERROR:", "RECORDING_ENDED"]:
-            st.session_state.messages.append({"role": "user", "content": voice_result})
+        if not st.session_state.processing:
+            st.session_state.messages.append({"role": "user", "content": st.session_state.voice_result})
             st.session_state.processing = True
             st.session_state.last_input_was_voice = True
-            st.success(f"✨ Recognized: '{voice_result}'")
+            st.success(f"✨ Recognized: '{st.session_state.voice_result}'")
     
     # Clear the result
-    if voice_input_key in st.session_state:
-        del st.session_state[voice_input_key]
+    st.session_state.voice_result = ""
     st.rerun()
 
 # Instructions
