@@ -104,9 +104,15 @@ Building advanced voice-to-image generation in a web browser seemed impossible:
 - Personality-driven AI responses
 - Seamless native-web deployment
 
-## 🎯 Demo
+## 🎯 Demo 
 
 <div align="center">
+    
+         ## Mobile View    
+         
+<img width="500" height="1000" src="https://github.com/user-attachments/assets/f9b3be4d-e08a-46f9-bb06-f686d4db3d5f"/>
+
+     ##Desktop View 
 
 <img width="1409" alt="Chandre GPT Interface" src="https://github.com/user-attachments/assets/b61ac52d-6647-4d4a-a59f-28a584e71f22" />
 
