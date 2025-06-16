@@ -53,6 +53,7 @@ Revolutionary web audio integration
 
 🎯 **No Installation Required**<br/>
 Works on any device, anywhere<br>
+Works Perfect in desktop(browsers)<br>
 Perfect Conversation in text and audio<br>
 Generate great image with text input
 
