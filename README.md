@@ -7,6 +7,8 @@
 <img src="https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini"/>
 <img src="https://img.shields.io/badge/AI_Powered-00D4AA?style=for-the-badge&logo=artificial-intelligence&logoColor=white" alt="AI Powered"/>
 
+website url :https://chandreai.streamlit.app/
+
 ### 🚀 Advanced AI-powered chatbot with voice interaction and image generation capabilities
 
 *Built with Streamlit and Google's Gemini AI*
