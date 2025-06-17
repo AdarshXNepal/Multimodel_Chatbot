@@ -15,8 +15,31 @@ website url :https://chandreai.streamlit.app/
 
 [🌐 Live Demo](https://chandreai.streamlit.app/) • [⚡ Quick Start](#-quick-start) • [📖 Documentation](#-usage) • [🤝 Contributing](#-contributing)
 
+
 ---
 
+Video Demonstratoin of Native Application (done in mac os /Chrome)
+
+https://www.loom.com/share/3465333af71c4ac084e2cfd83cc1bea6?sid=64a3f6d5-0969-49b8-8d71-63bdc8d0c4c0
+
+
+
+
+----
+
+----
+
+Video Demonstration of Web Version (In Chrome Web Browser || Link availabe above
+
+https://www.loom.com/share/8f1816df206f4ed7ba3cc1e1c026207d?sid=1304dd3c-6a5b-4784-b689-014d8869fee4
+
+
+
+
+
+
+
+----
 </div>
 
 ## 🎯 Two Revolutionary Implementations
